@@ -13,9 +13,28 @@ HF_TOKEN = st.secrets["HF_TOKEN"]
 
 headers = {"Authorization": f"Bearer {HF_TOKEN}"}
 
-def query(payload):
-    response = requests.post(API_URL, headers=headers, json=payload)
-    return response.json()
+# def query(payload):
+#     response = requests.post(API_URL, headers=headers, json=payload)
+#     return response.json()
+
+output = query({
+    "inputs": prompt,
+    "parameters": {
+        "max_length": 512,
+        "temperature": 0.7
+    }
+})
+
+if isinstance(output, list):
+    result = output[0]["generated_text"]
+    st.success("✅ Analysis Complete")
+    st.markdown(result)
+
+elif "error" in output:
+    st.error(f"API Error: {output['error']}")
+
+else:
+    st.error("Unexpected response format")
 
 # UI Layout
 col1, col2 = st.columns(2)
