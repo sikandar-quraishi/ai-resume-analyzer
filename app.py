@@ -1,52 +1,41 @@
 import streamlit as st
-import requests
+import re
 
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
 st.title("🚀 AI Resume Analyzer (POC)")
-st.markdown("### Powered by OpenRouter Free LLM")
+st.markdown("### AI-Powered Resume Matching System")
 
-API_URL = "https://openrouter.ai/api/v1/chat/completions"
+def extract_skills(text):
+    # Simple skill extraction (customize if needed)
+    common_skills = [
+        "react", "javascript", "redux", "rest", "api",
+        "node", "typescript", "git", "html", "css",
+        "python", "django", "sql", "aws", "docker"
+    ]
+    
+    found = []
+    text_lower = text.lower()
+    
+    for skill in common_skills:
+        if skill in text_lower:
+            found.append(skill.capitalize())
+    
+    return set(found)
 
-API_KEY = st.secrets["OPENROUTER_API_KEY"]
-
-headers = {
-    "Authorization": f"Bearer {API_KEY}",
-    "Content-Type": "application/json"
-}
-
-def analyze(job_desc, resume):
-
-    payload = {
-        "model": "mistralai/mistral-7b-instruct",
-        "messages": [
-            {
-                "role": "user",
-                "content": f"""
-Compare the resume with the job description and provide:
-
-1. Match percentage
-2. Missing skills
-3. Strengths
-4. Final recommendation
-
-Job Description:
-{job_desc}
-
-Resume:
-{resume}
-"""
-            }
-        ],
-        "max_tokens": 300
-    }
-
-    response = requests.post(API_URL, headers=headers, json=payload)
-
-    if response.status_code != 200:
-        return {"error": f"{response.status_code}: {response.text}"}
-
-    return response.json()
+def analyze_resume(job_desc, resume):
+    job_skills = extract_skills(job_desc)
+    resume_skills = extract_skills(resume)
+    
+    matched = job_skills.intersection(resume_skills)
+    missing = job_skills.difference(resume_skills)
+    
+    if len(job_skills) == 0:
+        match_percent = 0
+    else:
+        match_percent = int((len(matched) / len(job_skills)) * 100)
+    
+    return match_percent, matched, missing
 
 col1, col2 = st.columns(2)
 
@@ -57,17 +46,33 @@ with col2:
     resume = st.text_area("📑 Resume", height=300)
 
 if st.button("Analyze Resume"):
-
     if not job_desc or not resume:
         st.warning("⚠️ Please fill both fields.")
     else:
-        with st.spinner("🤖 AI is analyzing..."):
-
-            result = analyze(job_desc, resume)
-
-            if "choices" in result:
-                output = result["choices"][0]["message"]["content"]
-                st.success("✅ Analysis Complete")
-                st.write(output)
-            else:
-                st.error(result.get("error", "Unexpected error"))
+        match_percent, matched, missing = analyze_resume(job_desc, resume)
+        
+        st.success("✅ Analysis Complete")
+        
+        st.markdown(f"## 🎯 Match Score: {match_percent}%")
+        
+        st.markdown("### ✅ Matching Skills")
+        if matched:
+            for skill in matched:
+                st.write(f"- {skill}")
+        else:
+            st.write("No matching skills found.")
+        
+        st.markdown("### ❌ Missing Skills")
+        if missing:
+            for skill in missing:
+                st.write(f"- {skill}")
+        else:
+            st.write("No missing skills. Great match!")
+        
+        st.markdown("### 🧠 AI Recommendation")
+        if match_percent > 80:
+            st.write("Strong candidate. Highly recommended.")
+        elif match_percent > 50:
+            st.write("Moderate match. Consider shortlisting.")
+        else:
+            st.write("Low match. Needs skill improvement.")
