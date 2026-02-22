@@ -504,3 +504,78 @@ elif menu == "Job Description Generator":
         st.write("- Cloud knowledge (AWS / Azure)")
         st.write("- CI/CD understanding")
         st.write("- Docker / Containerization")
+
+# =============================================
+# POC 1 - Resume Analyzer + Screening Dashboard
+# =============================================
+
+if menu == "Resume Analyzer":
+
+    st.header("📄 Resume Analyzer & Screening Dashboard")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        job_desc = st.text_area("Job Description", height=250)
+
+    with col2:
+        resume = st.text_area("Resume", height=250)
+
+    if st.button("Analyze Resume"):
+
+        if not job_desc or not resume:
+            st.warning("Please fill both fields.")
+        else:
+            match_percent, matched, missing = analyze_resume(job_desc, resume)
+
+            st.success("Analysis Complete")
+
+            # ---------------- SCORE DISPLAY ----------------
+            st.markdown(f"# 🎯 Match Score: {match_percent}%")
+            st.progress(match_percent)
+
+            # ---------------- SCREENING LOGIC ----------------
+            if match_percent >= 80:
+                status = "Shortlisted"
+                priority = "High"
+                next_action = "Schedule Technical Interview"
+                recommendation = "Strong candidate. Move to next round immediately."
+
+            elif match_percent >= 50:
+                status = "On Hold"
+                priority = "Medium"
+                next_action = "Manual HR Review Required"
+                recommendation = "Candidate meets partial requirements. Further evaluation needed."
+
+            else:
+                status = "Rejected"
+                priority = "Low"
+                next_action = "Send Rejection Email"
+                recommendation = "Candidate does not meet required criteria."
+
+            # ---------------- DASHBOARD DISPLAY ----------------
+            st.markdown("## 📊 Screening Dashboard")
+
+            colA, colB, colC = st.columns(3)
+
+            colA.metric("Screening Status", status)
+            colB.metric("Priority Level", priority)
+            colC.metric("Next Action", next_action)
+
+            st.markdown("### 🧠 Hiring Recommendation")
+            st.write(recommendation)
+
+            # ---------------- SKILL BREAKDOWN ----------------
+            st.markdown("### ✅ Matching Skills")
+            if matched:
+                for skill in matched:
+                    st.write(f"- {skill}")
+            else:
+                st.write("No matching skills found.")
+
+            st.markdown("### ❌ Missing Skills")
+            if missing:
+                for skill in missing:
+                    st.write(f"- {skill}")
+            else:
+                st.write("No missing skills. Strong match!")
