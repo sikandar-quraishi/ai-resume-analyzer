@@ -1,42 +1,39 @@
 import streamlit as st
 import requests
-import os
 
+# -------------------------------
+# Page Config
+# -------------------------------
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
 st.title("🚀 AI Resume Analyzer (POC)")
-st.write("Paste Job Description and Resume to get AI analysis")
+st.markdown("### Powered by Hugging Face Free Model")
 
-# Hugging Face API
-API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-large"
+# -------------------------------
+# API Configuration
+# -------------------------------
+API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
+
+# Get token safely from Streamlit Secrets
 HF_TOKEN = st.secrets["HF_TOKEN"]
 
-headers = {"Authorization": f"Bearer {HF_TOKEN}"}
+headers = {
+    "Authorization": f"Bearer {HF_TOKEN}"
+}
 
-# def query(payload):
-#     response = requests.post(API_URL, headers=headers, json=payload)
-#     return response.json()
+# -------------------------------
+# API Function
+# -------------------------------
+def query(payload):
+    try:
+        response = requests.post(API_URL, headers=headers, json=payload)
+        return response.json()
+    except Exception as e:
+        return {"error": str(e)}
 
-output = query({
-    "inputs": prompt,
-    "parameters": {
-        "max_length": 512,
-        "temperature": 0.7
-    }
-})
-
-if isinstance(output, list):
-    result = output[0]["generated_text"]
-    st.success("✅ Analysis Complete")
-    st.markdown(result)
-
-elif "error" in output:
-    st.error(f"API Error: {output['error']}")
-
-else:
-    st.error("Unexpected response format")
-
+# -------------------------------
 # UI Layout
+# -------------------------------
 col1, col2 = st.columns(2)
 
 with col1:
@@ -45,16 +42,25 @@ with col1:
 with col2:
     resume = st.text_area("📑 Resume", height=300)
 
+# -------------------------------
+# Button Action
+# -------------------------------
 if st.button("Analyze Resume"):
-    if job_desc and resume:
-        with st.spinner("Analyzing with AI..."):
+
+    if not job_desc or not resume:
+        st.warning("⚠️ Please fill both fields.")
+    else:
+        with st.spinner("🤖 AI is analyzing..."):
 
             prompt = f"""
-            Compare the following resume with the job description.
-            Give:
-            1. Match percentage
-            2. Missing skills
-            3. Improvement suggestions
+            Act like a professional HR recruiter.
+
+            Compare the resume with the job description and provide:
+
+            1. Match Percentage (in %)
+            2. Missing Skills
+            3. Strengths
+            4. Final Recommendation (short)
 
             Job Description:
             {job_desc}
@@ -65,14 +71,22 @@ if st.button("Analyze Resume"):
 
             output = query({
                 "inputs": prompt,
-                "parameters": {"max_length": 512}
+                "parameters": {
+                    "max_length": 512,
+                    "temperature": 0.7
+                }
             })
 
-            if isinstance(output, list):
+            # -------------------------------
+            # Handle Response
+            # -------------------------------
+            if isinstance(output, list) and "generated_text" in output[0]:
                 result = output[0]["generated_text"]
-                st.success("Analysis Complete!")
-                st.write(result)
+                st.success("✅ Analysis Complete")
+                st.markdown(result)
+
+            elif "error" in output:
+                st.error(f"❌ API Error: {output['error']}")
+
             else:
-                st.error("Error from AI API")
-    else:
-        st.warning("Please fill both fields.")
+                st.error("❌ Unexpected API response. Try again.")
