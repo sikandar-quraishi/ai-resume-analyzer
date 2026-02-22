@@ -1,39 +1,31 @@
 import streamlit as st
 import requests
 
-# -------------------------------
-# Page Config
-# -------------------------------
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
 st.title("🚀 AI Resume Analyzer (POC)")
-st.markdown("### Powered by Hugging Face Free Model")
+st.markdown("### Powered by Hugging Face Router API")
 
-# -------------------------------
-# NEW Hugging Face Router API
-# -------------------------------
 API_URL = "https://router.huggingface.co/hf-inference/models/google/flan-t5-base"
 
 HF_TOKEN = st.secrets["HF_TOKEN"]
 
 headers = {
-    "Authorization": f"Bearer {HF_TOKEN}",
-    "Content-Type": "application/json"
+    "Authorization": f"Bearer {HF_TOKEN}"
 }
 
-# -------------------------------
-# API Function
-# -------------------------------
-def query(payload):
-    try:
-        response = requests.post(API_URL, headers=headers, json=payload)
-        return response.json()
-    except Exception as e:
-        return {"error": str(e)}
+def query(prompt):
+    payload = {
+        "inputs": prompt
+    }
 
-# -------------------------------
-# UI Layout
-# -------------------------------
+    response = requests.post(API_URL, headers=headers, json=payload)
+
+    if response.status_code != 200:
+        return {"error": f"Status Code {response.status_code}: {response.text}"}
+
+    return response.json()
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -42,9 +34,6 @@ with col1:
 with col2:
     resume = st.text_area("📑 Resume", height=300)
 
-# -------------------------------
-# Button Action
-# -------------------------------
 if st.button("Analyze Resume"):
 
     if not job_desc or not resume:
@@ -53,40 +42,31 @@ if st.button("Analyze Resume"):
         with st.spinner("🤖 AI is analyzing..."):
 
             prompt = f"""
-            Act like a professional HR recruiter.
+Act like a professional HR recruiter.
 
-            Compare the resume with the job description and provide:
+Compare the resume with the job description and provide:
 
-            1. Match Percentage (in %)
-            2. Missing Skills
-            3. Strengths
-            4. Final Recommendation (short)
+1. Match Percentage
+2. Missing Skills
+3. Strengths
+4. Final Recommendation
 
-            Job Description:
-            {job_desc}
+Job Description:
+{job_desc}
 
-            Resume:
-            {resume}
-            """
+Resume:
+{resume}
+"""
 
-            output = query({
-                "inputs": prompt,
-                "parameters": {
-                    "max_new_tokens": 300,
-                    "temperature": 0.7
-                }
-            })
+            output = query(prompt)
 
-            # -------------------------------
-            # Handle Response
-            # -------------------------------
-            if isinstance(output, list) and "generated_text" in output[0]:
-                result = output[0]["generated_text"]
+            if isinstance(output, list):
+                result = output[0].get("generated_text", "")
                 st.success("✅ Analysis Complete")
-                st.markdown(result)
+                st.write(result)
 
             elif "error" in output:
                 st.error(f"❌ API Error: {output['error']}")
 
             else:
-                st.error("❌ Unexpected API response. Try again.")
+                st.error("❌ Unexpected response from API.")
