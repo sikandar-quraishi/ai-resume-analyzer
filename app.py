@@ -10,15 +10,15 @@ st.title("🚀 AI Resume Analyzer (POC)")
 st.markdown("### Powered by Hugging Face Free Model")
 
 # -------------------------------
-# API Configuration
+# NEW Hugging Face Router API
 # -------------------------------
-API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
+API_URL = "https://router.huggingface.co/hf-inference/models/google/flan-t5-base"
 
-# Get token safely from Streamlit Secrets
 HF_TOKEN = st.secrets["HF_TOKEN"]
 
 headers = {
-    "Authorization": f"Bearer {HF_TOKEN}"
+    "Authorization": f"Bearer {HF_TOKEN}",
+    "Content-Type": "application/json"
 }
 
 # -------------------------------
@@ -72,7 +72,7 @@ if st.button("Analyze Resume"):
             output = query({
                 "inputs": prompt,
                 "parameters": {
-                    "max_length": 512,
+                    "max_new_tokens": 300,
                     "temperature": 0.7
                 }
             })
