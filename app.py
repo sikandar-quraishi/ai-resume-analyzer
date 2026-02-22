@@ -205,3 +205,79 @@ elif menu == "Interview Question Generator":
             st.write("2. How do you manage deadlines?")
             st.write("3. How do you keep learning new technologies?")
 
+# ---------------------------------------------
+# POC 3 - Job Description Generator
+# ---------------------------------------------
+
+elif menu == "Job Description Generator":
+
+    st.header("📋 Job Description Generator")
+
+    role = st.selectbox(
+        "Select Job Role",
+        [
+            "Frontend Developer",
+            "Backend Developer",
+            "Full Stack Developer",
+            "Python Developer",
+            "Node.js Developer"
+        ]
+    )
+
+    experience = st.selectbox(
+        "Experience Level",
+        ["Fresher", "Mid-Level (2-5 years)", "Senior (5+ years)"]
+    )
+
+    if st.button("Generate Job Description"):
+
+        st.success("Job Description Generated")
+
+        st.markdown(f"## 📌 {role} ({experience})")
+
+        st.markdown("### 🔹 Role Summary")
+        st.write(f"We are looking for a skilled {role} with {experience} experience to join our development team and build scalable, high-quality applications.")
+
+        st.markdown("### 🔹 Key Responsibilities")
+        st.write("- Develop and maintain high-quality applications")
+        st.write("- Collaborate with cross-functional teams")
+        st.write("- Write clean and maintainable code")
+        st.write("- Participate in code reviews")
+        st.write("- Troubleshoot and debug applications")
+
+        st.markdown("### 🔹 Required Skills")
+
+        if role == "Frontend Developer":
+            st.write("- React / JavaScript")
+            st.write("- HTML / CSS")
+            st.write("- REST API integration")
+            st.write("- Git")
+
+        elif role == "Backend Developer":
+            st.write("- Server-side programming")
+            st.write("- REST API development")
+            st.write("- Database management")
+            st.write("- Authentication & authorization")
+
+        elif role == "Full Stack Developer":
+            st.write("- Frontend + Backend technologies")
+            st.write("- API development")
+            st.write("- Database knowledge")
+            st.write("- Deployment experience")
+
+        elif role == "Python Developer":
+            st.write("- Python programming")
+            st.write("- Django / Flask")
+            st.write("- SQL")
+            st.write("- REST APIs")
+
+        elif role == "Node.js Developer":
+            st.write("- Node.js")
+            st.write("- Express.js")
+            st.write("- MongoDB / SQL")
+            st.write("- API development")
+
+        st.markdown("### 🔹 Nice To Have")
+        st.write("- Cloud knowledge (AWS / Azure)")
+        st.write("- CI/CD understanding")
+        st.write("- Docker / Containerization")
