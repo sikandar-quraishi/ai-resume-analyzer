@@ -4,29 +4,47 @@ import requests
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
 st.title("🚀 AI Resume Analyzer (POC)")
-st.markdown("### Powered by Hugging Face Free Model")
+st.markdown("### Powered by OpenRouter Free LLM")
 
-API_URL = "https://router.huggingface.co/hf-inference/models/google/flan-t5-small"
+API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-HF_TOKEN = st.secrets["HF_TOKEN"]
+API_KEY = st.secrets["OPENROUTER_API_KEY"]
 
 headers = {
-    "Authorization": f"Bearer {HF_TOKEN}",
+    "Authorization": f"Bearer {API_KEY}",
     "Content-Type": "application/json"
 }
 
-def query(prompt):
+def analyze(job_desc, resume):
+
     payload = {
-        "inputs": prompt,
-        "parameters": {
-            "max_new_tokens": 200
-        }
+        "model": "mistralai/mistral-7b-instruct",
+        "messages": [
+            {
+                "role": "user",
+                "content": f"""
+Compare the resume with the job description and provide:
+
+1. Match percentage
+2. Missing skills
+3. Strengths
+4. Final recommendation
+
+Job Description:
+{job_desc}
+
+Resume:
+{resume}
+"""
+            }
+        ],
+        "max_tokens": 300
     }
 
     response = requests.post(API_URL, headers=headers, json=payload)
 
     if response.status_code != 200:
-        return {"error": f"Status Code {response.status_code}: {response.text}"}
+        return {"error": f"{response.status_code}: {response.text}"}
 
     return response.json()
 
@@ -45,31 +63,11 @@ if st.button("Analyze Resume"):
     else:
         with st.spinner("🤖 AI is analyzing..."):
 
-            prompt = f"""
-Compare the resume with the job description.
+            result = analyze(job_desc, resume)
 
-Give:
-1. Match percentage
-2. Missing skills
-3. Strengths
-4. Recommendation
-
-Job Description:
-{job_desc}
-
-Resume:
-{resume}
-"""
-
-            output = query(prompt)
-
-            if isinstance(output, list):
-                result = output[0]["generated_text"]
+            if "choices" in result:
+                output = result["choices"][0]["message"]["content"]
                 st.success("✅ Analysis Complete")
-                st.write(result)
-
-            elif "error" in output:
-                st.error(f"❌ API Error: {output['error']}")
-
+                st.write(output)
             else:
-                st.error("❌ Unexpected API response.")
+                st.error(result.get("error", "Unexpected error"))
