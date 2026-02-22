@@ -4,9 +4,9 @@ import requests
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
 st.title("🚀 AI Resume Analyzer (POC)")
-st.markdown("### Powered by Hugging Face Free LLM")
+st.markdown("### Powered by Hugging Face Free Model")
 
-API_URL = "https://router.huggingface.co/v1/chat/completions"
+API_URL = "https://router.huggingface.co/hf-inference/models/google/flan-t5-small"
 
 HF_TOKEN = st.secrets["HF_TOKEN"]
 
@@ -15,33 +15,12 @@ headers = {
     "Content-Type": "application/json"
 }
 
-def query(job_desc, resume):
-
+def query(prompt):
     payload = {
-        "model": "HuggingFaceH4/zephyr-7b-beta",
-        "messages": [
-            {
-                "role": "user",
-                "content": f"""
-Act like a professional HR recruiter.
-
-Compare the resume with the job description and provide:
-
-1. Match Percentage
-2. Missing Skills
-3. Strengths
-4. Final Recommendation
-
-Job Description:
-{job_desc}
-
-Resume:
-{resume}
-"""
-            }
-        ],
-        "max_tokens": 300,
-        "temperature": 0.7
+        "inputs": prompt,
+        "parameters": {
+            "max_new_tokens": 200
+        }
     }
 
     response = requests.post(API_URL, headers=headers, json=payload)
@@ -50,7 +29,6 @@ Resume:
         return {"error": f"Status Code {response.status_code}: {response.text}"}
 
     return response.json()
-
 
 col1, col2 = st.columns(2)
 
@@ -67,10 +45,26 @@ if st.button("Analyze Resume"):
     else:
         with st.spinner("🤖 AI is analyzing..."):
 
-            output = query(job_desc, resume)
+            prompt = f"""
+Compare the resume with the job description.
 
-            if "choices" in output:
-                result = output["choices"][0]["message"]["content"]
+Give:
+1. Match percentage
+2. Missing skills
+3. Strengths
+4. Recommendation
+
+Job Description:
+{job_desc}
+
+Resume:
+{resume}
+"""
+
+            output = query(prompt)
+
+            if isinstance(output, list):
+                result = output[0]["generated_text"]
                 st.success("✅ Analysis Complete")
                 st.write(result)
 
