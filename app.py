@@ -228,6 +228,7 @@ st.set_page_config(page_title="AI HR Tools Suite", layout="wide")
 # Configure Gemini API
 try:
     genai.configure(api_key=st.secrets["AIzaSyB9RPyJTiT8DfzTwVnhn-u1q494RPf8ppU"])
+    print(genai, "genai")
     model = genai.GenerativeModel("gemini-1.5-flash")
 except Exception as e:
     st.error("Gemini API Key not configured properly.")
