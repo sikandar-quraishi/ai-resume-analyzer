@@ -146,24 +146,6 @@ Deployed using **Streamlit Cloud**.
 
 ---
 
-## 🔒 Security
-
-- Secure API key using Streamlit secrets
-- Safe JSON parsing
-- Graceful handling of AI response errors
-
----
-
-## 🚀 Future Improvements
-
-- PDF Resume Upload Support
-- Candidate Database
-- Downloadable Reports
-- Admin Dashboard
-- Email Integration
-
----
-
 ## 👨‍💻 Author
 
 Developed as an AI-powered recruitment automation solution using Streamlit and Google Gemini.
