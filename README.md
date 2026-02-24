@@ -119,10 +119,9 @@ http://localhost:8501
 
 ---
 
-## 🌐 Live Deployment
+## 🌐 Live Demo
 
-Deployed using **Streamlit Cloud**.  
-(Add your live app link here)
+🔗 **Live App:** https://ai-resume-analyzer-mnhb6erjp4qwnhr7gepvjw.streamlit.app/
 
 ---
 
