@@ -43,10 +43,20 @@ Automatically creates:
 
 ## 🧠 Tech Stack
 
-- Python  
-- Streamlit  
-- Google Gemini (gemini-2.5-flash)  
-- Streamlit Cloud (Deployment)
+- **Python**  
+  Used as the core programming language to handle application logic, API integration, and data processing.  
+
+- **Streamlit**  
+  Used to build the interactive web interface quickly without complex frontend frameworks.  
+  It allows rapid development of user-friendly AI applications with minimal code.
+
+- **Google Gemini (gemini-2.5-flash)**  
+  Powers the AI capabilities of the application through prompt-based content generation.  
+  It analyzes resumes, generates interview questions, and creates job descriptions intelligently.
+
+- **Streamlit Cloud**  
+  Used to deploy and host the application online for easy access.  
+  It allows seamless integration with GitHub and automatic updates on code changes.
 
 ---
 
