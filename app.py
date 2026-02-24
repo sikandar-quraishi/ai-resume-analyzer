@@ -270,8 +270,7 @@ menu = st.sidebar.selectbox(
     [
         "Resume Analyzer",
         "Interview Question Generator",
-        "Job Description Generator",
-        "Candidate Ranking System"
+        "Job Description Generator"
     ]
 )
 
