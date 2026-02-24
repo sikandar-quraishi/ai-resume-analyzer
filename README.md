@@ -138,11 +138,11 @@ Deployed using **Streamlit Cloud**.
 
 ## 🎯 Use Cases
 
-- HR Teams  
-- Recruitment Agencies  
-- Startups  
-- Technical Hiring Teams  
-- Talent Screening  
+- Faster candidate screening for HR teams  
+- Quick generation of professional job descriptions  
+- Skill gap analysis between job roles and resumes  
+- AI-assisted hiring decision support  
+- Role-based technical and behavioural interview questions  
 
 ---
 
