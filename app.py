@@ -64,7 +64,7 @@ menu = st.sidebar.selectbox(
 
 if menu == "Resume Analyzer":
 
-    st.header("📄 AI Resume Analyzer")
+    st.header("📄 Resume Analyzer")
 
     col1, col2 = st.columns(2)
 
@@ -136,7 +136,7 @@ if menu == "Resume Analyzer":
 
 elif menu == "Interview Question Generator":
 
-    st.header("🎤 AI Interview Question Generator")
+    st.header("🎤 Interview Question Generator")
 
     role = st.text_input("Enter Job Role")
     experience = st.selectbox(
@@ -173,7 +173,7 @@ elif menu == "Interview Question Generator":
 
 elif menu == "Job Description Generator":
 
-    st.header("📋 AI Job Description Generator")
+    st.header("📋 Job Description Generator")
 
     role = st.selectbox(
         "Select Job Role",
