@@ -56,9 +56,8 @@ Automatically creates:
 ai-hr-tools/
 │
 ├── app.py
-├── README.md
-└── .streamlit/
-    └── secrets.toml
+├── requirements.txt
+└── README.md
 ```
 
 ---
