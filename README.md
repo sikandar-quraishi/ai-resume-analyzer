@@ -1,179 +1,169 @@
-🚀 AI HR Tools Suite (Gemini Powered)
+# 🚀 AI HR Tools Suite (Gemini Powered)
 
-An intelligent HR automation web app built using Streamlit and Google Gemini AI that helps recruiters:
+An intelligent **AI-powered HR automation web application** built using **Streamlit** and **Google Gemini AI**.
 
-📄 Analyze resumes against job descriptions
+This platform helps recruiters automate and streamline hiring workflows efficiently.
 
-🎤 Generate interview questions
+---
 
-📋 Create professional job descriptions
+## 🌟 Features
 
-Built for fast, smart, AI-powered hiring workflows.
+### 📄 Resume Analyzer
+Compare a candidate's resume with a job description and get:
 
-🧠 Powered By
+- 🎯 Match Score (0–100%)
+- ✅ Matched Skills
+- ❌ Missing Skills
+- 📌 AI Recommendation
+- 📊 Final Status (Shortlisted / On Hold / Rejected)
 
-🐍 Python
+---
 
-⚡ Streamlit
+### 🎤 Interview Question Generator
+Generate structured interview questions based on:
 
-🤖 Google Gemini (gemini-2.5-flash)
+- Job Role
+- Experience Level (Fresher / Mid-Level / Senior)
 
-✨ Features
-1️⃣ Resume Analyzer
+Includes:
+- 5 Technical Questions  
+- 3 Behavioral Questions  
 
-Compare a candidate resume with a job description and get:
+---
 
-🎯 Match Score (0–100%)
-
-✅ Matched Skills
-
-❌ Missing Skills
-
-📌 AI Recommendation
-
-📊 Final Status (Shortlisted / On Hold / Rejected)
-
-Perfect for quick screening during recruitment.
-
-2️⃣ Interview Question Generator
-
-Generate:
-
-5 Technical Questions
-
-3 Behavioral Questions
-
-Based on:
-
-Job Role
-
-Experience Level (Fresher / Mid-Level / Senior)
-
-Great for structured interview preparation.
-
-3️⃣ Job Description Generator
-
+### 📋 Job Description Generator
 Automatically creates:
 
-Role Summary
+- Role Summary
+- Key Responsibilities
+- Required Skills
+- Nice-to-Have Skills
 
-Key Responsibilities
+---
 
-Required Skills
+## 🧠 Tech Stack
 
-Nice to Have
+- Python  
+- Streamlit  
+- Google Gemini (gemini-2.5-flash)  
+- Streamlit Cloud (Deployment)
 
-Helps HR teams quickly draft professional JDs.
+---
 
-📦 Project Structure
+## 📂 Project Structure
+
+```
 ai-hr-tools/
 │
 ├── app.py
 ├── README.md
 └── .streamlit/
     └── secrets.toml
-🔑 Setup Instructions
-1️⃣ Clone the Repository
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/your-username/ai-hr-tools.git
 cd ai-hr-tools
-2️⃣ Install Dependencies
+```
+
+### 2️⃣ Install Dependencies
+
+```bash
 pip install streamlit google-generativeai
-3️⃣ Add Gemini API Key
+```
+
+### 3️⃣ Configure Gemini API Key
 
 Create a file:
 
+```
 .streamlit/secrets.toml
+```
 
 Add:
 
+```toml
 GEMINI_API_KEY = "your_api_key_here"
+```
 
-You can get your API key from Google AI Studio.
+⚠️ Do NOT upload your API key to GitHub.
 
-4️⃣ Run the App
+---
+
+### 4️⃣ Run the Application
+
+```bash
 streamlit run app.py
+```
 
-App will run at:
+The app runs at:
 
+```
 http://localhost:8501
-🖥️ Demo Flow (For Presentation)
+```
 
-Here’s a smooth demo flow you can follow:
+---
 
-🔹 Step 1 – Resume Analyzer
+## 🌐 Live Deployment
 
-Paste a sample job description
+Deployed using **Streamlit Cloud**.  
+(Add your live app link here)
 
-Paste a sample resume
+---
 
-Click Analyze Resume
+## 🖥️ Demo Flow
 
-Show:
+### Step 1 – Resume Analyzer
+- Paste job description  
+- Paste resume  
+- Click Analyze Resume  
+- Show match score and hiring decision  
 
-Match Score
+### Step 2 – Interview Question Generator
+- Enter role  
+- Select experience  
+- Generate questions  
 
-Skill comparison
+### Step 3 – Job Description Generator
+- Select role  
+- Generate professional JD  
 
-Status decision
+---
 
-👉 Explain how this reduces manual screening time.
+## 🎯 Use Cases
 
-🔹 Step 2 – Interview Question Generator
+- HR Teams  
+- Recruitment Agencies  
+- Startups  
+- Technical Hiring Teams  
+- Talent Screening  
 
-Enter role: "Python Developer"
+---
 
-Select experience: "Mid-Level"
+## 🔒 Security
 
-Generate questions
+- Secure API key using Streamlit secrets
+- Safe JSON parsing
+- Graceful handling of AI response errors
 
-Highlight technical + behavioral separation
+---
 
-👉 Explain structured interview benefits.
+## 🚀 Future Improvements
 
-🔹 Step 3 – Job Description Generator
+- PDF Resume Upload Support
+- Candidate Database
+- Downloadable Reports
+- Admin Dashboard
+- Email Integration
 
-Select role
+---
 
-Select experience level
+## 👨‍💻 Author
 
-Generate JD
-
-👉 Show how it speeds up HR documentation.
-
-🎯 Use Cases
-
-HR Teams
-
-Recruitment Agencies
-
-Startup Hiring
-
-Technical Screening Automation
-
-Internal Talent Evaluation
-
-🔒 Error Handling
-
-API key validation
-
-Safe JSON parsing
-
-Graceful failure if AI response format changes
-
-🚀 Future Improvements
-
-PDF resume upload support
-
-Candidate database storage
-
-Email integration
-
-Admin dashboard
-
-Download report as PDF
-
-Multi-model support
-
-🧑‍💻 Author
-
-Developed as an AI-powered HR automation solution using Streamlit + Gemini.
+Developed as an AI-powered recruitment automation solution using Streamlit and Google Gemini.
