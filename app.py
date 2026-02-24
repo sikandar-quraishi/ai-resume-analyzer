@@ -7,7 +7,7 @@ import re
 # CONFIGURATION
 # ------------------------------------------------
 
-st.set_page_config(page_title="AI HR Tools Suite", layout="wide")
+st.set_page_config(page_title="AI Recruitment Assistant", layout="wide")
 
 # Configure Gemini API
 try:
@@ -47,7 +47,7 @@ def extract_json(text):
 # APP TITLE
 # ------------------------------------------------
 
-st.title("🚀 AI HR Tools Suite (Gemini Powered)")
+st.title("🚀 AI Recruitment Assistant (Gemini Powered)")
 
 menu = st.sidebar.selectbox(
     "Select AI Tool",
